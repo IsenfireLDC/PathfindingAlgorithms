@@ -1,16 +1,40 @@
 package main.java;
 
-import main.java.prims.Path;
-import main.java.prims.PrimsAlgoV1;
-import main.java.prims.PrimsAlgoV2;
+import main.java.algorithms.DijkstrasAlgo;
+import main.java.algorithms.PrimsAlgoV2;
+import main.java.rendering.RenderPath;
+import main.java.utility.ConnectablePoint;
+import main.java.utility.Path;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		PrimsAlgoV1.main(args);
-		PrimsAlgoV2 v2 = new PrimsAlgoV2(Path.makeFullMatrix(Path.points.length), Path.points);
-		v2.makeHeap();
-		v2.heap.printAllMin();
-		v2.heap.printMaps();
+		testDijkstras();
+	};
+	
+	public static void testPrims() {
+		int size = 20;
+		int[][] matrix = Path.makeFullMatrix(size);
+		ConnectablePoint[] points = Path.randomPointArray(size);
+		PrimsAlgoV2 v2 = new PrimsAlgoV2(matrix, points);
+		Path.printMatrix(matrix);
+		
+		RenderPath r = new RenderPath();
+		//r.grid(50);
+		r.render(points, v2.run((int)Math.round(Math.random() * size), (int)Math.round(Math.random() * size)));		
+	};
+	
+	public static void testDijkstras() {
+		int size = Path.points.length/*20*/;
+		int[][] matrix = Path.randomAdjacencyMatrix(size)/*Path.makeFullMatrix(size)*/;
+		ConnectablePoint[] points = Path.points/*Path.randomPointArray(size)*/;
+		
+		Path.printMatrix(matrix);
+		
+		DijkstrasAlgo d = new DijkstrasAlgo(matrix, points);
+		int end = (int)Math.ceil(Math.random()*size) - 1;
+		int[] start = new int[] {0};
+		d.run(start, end);
+		System.out.println("Point " + start[0] + " to point " + end);
 	}
 }

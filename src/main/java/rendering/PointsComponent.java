@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import javax.swing.JComponent;
 
+@SuppressWarnings("serial")
 public class PointsComponent extends JComponent {
 	
 	private static class PointR {
@@ -27,6 +28,11 @@ public class PointsComponent extends JComponent {
 	public void addPoint(int x, int y) {
 	    points.add(new PointR(x, y, 5, Color.RED));        
 	    repaint();
+	};
+	
+	public void addPoint(int x, int y, Color color) {
+		points.add(new PointR(x, y, 7, color));
+		repaint();
 	}
 
 	public void clearPoints() {

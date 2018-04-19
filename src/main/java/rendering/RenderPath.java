@@ -8,6 +8,8 @@ import java.awt.Point;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import main.java.utility.ConnectablePoint;
+
 @SuppressWarnings("serial")
 public class RenderPath extends JPanel {
 	
@@ -31,13 +33,13 @@ public class RenderPath extends JPanel {
 	    jFrame.setVisible(true);
 	};
 	
-	public void render(Point[] points, int[] connections) {
+	public void render(ConnectablePoint[] points, int[] connections) {
 		jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		final PointsComponent compP = new PointsComponent();
 		for (int i = 0; i < points.length; i++) {
 			int x1 = (int)points[i].getX() * scale;
 			int y1 = (int)points[i].getY() * scale;
-			compP.addPoint(x1, y1);
+			compP.addPoint(x1, y1, points[i].color);
 		}
 		compP.setPreferredSize(new Dimension(320, 200));
 		jFrame.getContentPane().add(compP, BorderLayout.CENTER);
@@ -55,6 +57,42 @@ public class RenderPath extends JPanel {
 	    jFrame.getContentPane().add(compL, BorderLayout.CENTER);
 	    jFrame.pack();
 	    jFrame.setVisible(true);
-	}
+	};
+	
+	public void render(ConnectablePoint[] points, int[][] connections) {
+		jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		final PointsComponent compP = new PointsComponent();
+		for (int i = 0; i < points.length; i++) {
+			int x1 = (int)points[i].getX() * scale;
+			int y1 = (int)points[i].getY() * scale;
+			compP.addPoint(x1, y1, points[i].color);
+		}
+		compP.setPreferredSize(new Dimension(320, 200));
+		jFrame.getContentPane().add(compP, BorderLayout.CENTER);
+		jFrame.pack();
+		
+		final LinesComponent compL = new LinesComponent();
+		for (int i = 0; i < connections.length; i++) {
+			int x1 = (int)points[connections[i][0]].getX() * scale;
+			int y1 = (int)points[connections[i][0]].getY() * scale;
+			int x2 = (int)points[connections[i][1]].getX() * scale;
+			int y2 = (int)points[connections[i][1]].getY() * scale;
+			compL.addLine(x1, y1, x2, y2);
+		}
+		compL.setPreferredSize(new Dimension(320, 200));
+	    jFrame.getContentPane().add(compL, BorderLayout.CENTER);
+	    jFrame.pack();
+	    jFrame.setVisible(true);
+	};
+	
+	public void grid(int spacing) {
+		final LinesComponent gridL = new LinesComponent();
+		for (int i = 0; i < 150; i += spacing) {
+			gridL.addLine(spacing * i, 0, spacing * i, 150, Color.GRAY);
+		}
+		gridL.setPreferredSize(new Dimension(320, 200));
+		jFrame.getContentPane().add(gridL, BorderLayout.CENTER);
+		jFrame.pack();
+	};
 
 }

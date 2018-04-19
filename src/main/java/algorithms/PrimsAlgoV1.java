@@ -1,9 +1,10 @@
-package main.java.prims;
+package main.java.algorithms;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
 import main.java.rendering.RenderPath;
+import main.java.utility.Path;
 
 public class PrimsAlgoV1 {
 	
@@ -23,6 +24,9 @@ public class PrimsAlgoV1 {
 		
 		RenderPath p = new RenderPath();
 		p.render(Path.points, connections);
+		for (int connection : connections) {
+			System.out.println(connection);
+		}
 	}
 	
 	public static int[] primsAlgo(Point[] points, int[][] adjMatrix) {
