@@ -26,8 +26,9 @@ public class Main {
 	
 	public static void testDijkstras() {
 		int size = Path.points.length/*20*/;
-		int[][] matrix = Path.randomAdjacencyMatrix(size)/*Path.makeFullMatrix(size)*/;
-		ConnectablePoint[] points = Path.points/*Path.randomPointArray(size)*/;
+//		Path.dijkstrasTestCase();
+		int[][] matrix = /*Path.adjacencyMatrix*/Path.randomAdjacencyMatrix(size);
+		ConnectablePoint[] points = /*Path.points*/Path.randomPointArray(size);
 		
 		Path.printMatrix(matrix);
 		

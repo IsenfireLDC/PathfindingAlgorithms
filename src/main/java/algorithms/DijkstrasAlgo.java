@@ -48,54 +48,45 @@ public class DijkstrasAlgo {
 	 * Loop to line 2
 	 */
 	
-	public int[][] run(int start, int end) {
-		if (start == end) {
-			System.out.println("Point " + end + " found with distance of 0");
-		}
-		int[][] result = new int[points.length][points.length];
-		ArrayList<Integer> checked = new ArrayList<Integer>();
+	public int[][] run(int[] pointsIn, int end) {
+		int[][] result = new int[0][0];
+		ArrayList<Integer> recursive = new ArrayList<Integer>();
 		double distance = 0D;
-		double max = -1D;
-		int currentPoint = start;
-		boolean finished = false;
-		int count = 0;
-		while (!finished) { //TODO Needs to be changed to be Dijkstras
-			System.out.println();
-			System.out.println("Iteration " + ++count + ":");
-			for (int i = 0; i < adjMatrix[currentPoint].length; i++) {
-				if (adjMatrix[currentPoint][i] == 1) {
-					distance = points[currentPoint].distance + points[currentPoint].distance(points[i]);
-					System.out.println(distance);
+		for (int i = 0; i < pointsIn.length; i++) {
+			int currentPoint = pointsIn[i];
+			points[currentPoint].connected = true;
+			for (int j = 0; j < adjMatrix[currentPoint].length; j++) {
+				if (adjMatrix[currentPoint][j] == 1) {
+					distance = points[currentPoint].distance + points[currentPoint].distance(points[j]);
+//					System.out.println("Point " + j + " with distance of " + distance);
 					
-					if (i == end) {
-						System.out.println("Point " + end + " found with distance of " + distance);
-						max = distance;
-						//finished = true;
-						//break;
+					if ((distance < points[j].distance || !points[j].connected) && ((max >= 0 && distance < max) || max < 0)) {
+						//if distance is less than max or no max and distance is less than current distance or point is not connected
+						points[j].distance = distance;
+						points[j].connected = true;
+						recursive.add(j);
 					}
 					
-					if (!checked.contains(i)) {
-						if ((distance < points[i].distance  || !points[i].connected) && (max > 0 && distance < max)) {
-							points[i].distance = distance;
-							points[i].connected = true;
-						}
-						this.distances.put(points[i], distance);
+					if (j == end) {
+						max = points[end].distance;
+						System.out.println("Point " + end + " found with distance " + points[end].distance);
 					}
 				}
 			}
-			checked.add(currentPoint);
-			currentPoint = Util.search(Util.min(distances), points);
-			distances.clear();
-			
-			if (count >= 500) {  //Just in case
-				System.err.println("Terminating due to large number of iterations");
-				finished = true;
-			}
 		}
+		
+		if (!recursive.isEmpty() && max != 0) {
+			int[] a = new int[recursive.size()];
+			a = Util.toIntArray(recursive);
+			run(a, end);
+		} else {
+			System.out.println(points[end].distance);
+		};
+		
 		return result;
-	}
+	};
 	
-	public int[][] run(int[] pointsIn, int end) {
+	public int[][] runExtended(int[] pointsIn, int end) {
 		int[][] result = new int[0][0];
 		ArrayList<Integer> recursive = new ArrayList<Integer>();
 		double distance = 0D;
@@ -106,8 +97,8 @@ public class DijkstrasAlgo {
 					distance = points[currentPoint].distance + points[currentPoint].distance(points[j]);
 					System.out.println(distance);
 					
-					if ((distance < points[j].distance || !points[j].connected) && ((max >= 0 && distance < max) || max < 0)) {
-						//if distance is less than max or no max and distance is less than current distance or point is not connected
+					if (distance < points[j].distance || !points[j].connected) {
+						//if distance is less than current distance or point is not connected
 						points[j].distance = distance;
 						points[j].connected = true;
 						recursive.add(j);
@@ -119,7 +110,7 @@ public class DijkstrasAlgo {
 		if (!recursive.isEmpty()) {
 			int[] a = new int[recursive.size()];
 			a = Util.toIntArray(recursive);
-			run(a, end);
+			runExtended(a, end);
 		} else {
 			System.out.println(points[end].distance);
 		};

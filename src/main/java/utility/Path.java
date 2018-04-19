@@ -105,5 +105,25 @@ public class Path {
 		}
 		return adjList;
 	};
+	
+	public static void dijkstrasTestCase() {
+		Path.adjacencyMatrix = new int[][] {
+			{0, 1, 1, 1, 0, 0, 0},
+			{1, 0, 0, 0, 1, 0, 0},
+			{1, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 1, 0},
+			{0, 1, 0, 0, 0, 0, 1},
+			{0, 0, 0, 1, 0, 0, 0},
+			{0, 0, 1, 0, 1, 0, 0}
+		};
+		ConnectablePoint pointA = new ConnectablePoint(0, 0);
+		ConnectablePoint pointB = new ConnectablePoint(2, 1);
+		ConnectablePoint pointC = new ConnectablePoint(2, 2);
+		ConnectablePoint pointD = new ConnectablePoint(1, 2);
+		ConnectablePoint pointE = new ConnectablePoint(3, 1);
+		ConnectablePoint pointF = new ConnectablePoint(2, 4);
+		ConnectablePoint pointG = new ConnectablePoint(5, 1);
+		Path.points = new ConnectablePoint[] {pointA, pointB, pointC, pointD, pointE, pointF, pointG};
+	}
 
 }
