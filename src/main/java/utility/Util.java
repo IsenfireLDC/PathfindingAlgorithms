@@ -2,6 +2,7 @@ package main.java.utility;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,6 +51,20 @@ public class Util {
 			result[i] = arrList.get(i);
 		}
 		return result;
+	};
+	
+	public static <T, E> void printMapExpanded(Map<T, E> map) {
+		System.out.println("Printing map: " + map);
+		System.out.println("Note: Expansion may not be completely accurate");
+		Set<T> set = map.keySet();
+		Collection<E> collection = map.values();
+		Iterator<E> iterV = collection.iterator();
+		Iterator<T> iterK = set.iterator();
+		while (iterK.hasNext()) {
+			T key = iterK.next();
+			E value = (E) iterV.next();
+			System.out.println(key + " " + value);
+		}
 	}
 
 }

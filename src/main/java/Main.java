@@ -5,11 +5,14 @@ import main.java.algorithms.PrimsAlgoV2;
 import main.java.rendering.RenderPath;
 import main.java.utility.ConnectablePoint;
 import main.java.utility.Path;
+import main.java.utility.Test;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		testDijkstras();
+		Test test = new Test(20, 30);
+		test.genTests(10);
+		test.runTests();
 	};
 	
 	public static void testPrims() {

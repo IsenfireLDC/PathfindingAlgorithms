@@ -33,7 +33,7 @@ public class PrimsAlgoV2 {
 		System.out.println("==================================================== fullHeap created =====================================================");
 	};
 	
-	public int[] search(ConnectablePoint[] points) {
+	public int[] search(ConnectablePoint[] points) { //finds the indexes of the given points
 		int[] found = new int[points.length];
 		for (int i = 0; i < points.length; i++) {
 			for (int j = 0; j < this.points.length; j++) {
@@ -113,6 +113,7 @@ public class PrimsAlgoV2 {
 			double dist = currentHeap.min();
 			connection = currentHeap.pop(dist);
 			current = search(connection);
+			int[] currentA = current;
 			if (!(points[current[0]].connected && points[current[1]].connected)) {
 				//Connect the points
 				resultList.add(new int[] {current[0], current[1]});
@@ -126,8 +127,10 @@ public class PrimsAlgoV2 {
 					current = search(new ConnectablePoint[] {connection[0]});
 				};
 				
+				int indexA = currentA.length;
 				for (int index : current) {
 					points[index].setConnected(true);
+					points[currentA[--indexA]].connectedFrom.add(points[index]);
 				};
 				
 				findConnections(current);

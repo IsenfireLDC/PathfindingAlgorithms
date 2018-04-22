@@ -72,11 +72,15 @@ public class Path {
 	};
 	
 	public static ConnectablePoint[] randomPointArray(int length) {
+		return Path.randomPointArray(length, 10);
+	};
+	
+	public static ConnectablePoint[] randomPointArray(int length, double maxDist) {
 		ConnectablePoint[] points = new ConnectablePoint[length];
 		for (int i = 0; i < length; i++) {
 			boolean exists = false;
-			int pointX = (int)Math.round(Math.random() * 10);
-			int pointY = (int)Math.round(Math.random() * 10);
+			int pointX = (int)Math.round(Math.random() * maxDist);
+			int pointY = (int)Math.round(Math.random() * maxDist);
 			ConnectablePoint point = new ConnectablePoint(pointX, pointY);
 			for (ConnectablePoint pointIn : points) {
 				if (point.equals(pointIn)) {

@@ -1,8 +1,6 @@
 package main.java.algorithms;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import main.java.utility.ConnectablePoint;
 import main.java.utility.Util;
@@ -12,43 +10,13 @@ public class DijkstrasAlgo {
 	public int[][] adjMatrix;
 	public ConnectablePoint[] points;
 	double max = -1D;
-	public Map<ConnectablePoint, Double> distances = new HashMap<ConnectablePoint, Double>();
 	
 	public DijkstrasAlgo(int[][] adjMatrix, ConnectablePoint[] points) {
 		this.adjMatrix = adjMatrix;
 		this.points = points;
 	};
 	
-	/*
-	 * Find start point
-	 * Find all adjacent points
-	 * Find distance to all adjacent points
-	 * Going from the smallest to the largest connection repeat steps 2 and 3 for every connection
-	 * Find smallest connection and repeat steps 2 to 4, only going back to previously searched points if smaller distance is found
-	 * Terminate after finishing level of end point
-	 */
-	
-	/*
-	 * Function:
-	 * Array of point indexes as input
-	 * Marks points with distances
-	 * Array of points marked as output
-	 * 
-	 * Wrapper:
-	 * Calls function with start point
-	 * Makes input list from output
-	 * If endpoint marked:
-	 * max distance is assigned
-	 * 	any points above max distance are culled from input list
-	 * If input list is empty:
-	 * 	break loop
-	 * 	print result
-	 * 	output render
-	 * Calls function with input list
-	 * Loop to line 2
-	 */
-	
-	public int[][] run(int[] pointsIn, int end) {
+	public int[][] run(int[] pointsIn, int end) { //TODO Make it renderable
 		int[][] result = new int[0][0];
 		ArrayList<Integer> recursive = new ArrayList<Integer>();
 		double distance = 0D;
@@ -69,7 +37,7 @@ public class DijkstrasAlgo {
 					
 					if (j == end) {
 						max = points[end].distance;
-						System.out.println("Point " + end + " found with distance " + points[end].distance);
+//						System.out.println("Point " + end + " found with distance " + points[end].distance);
 					}
 				}
 			}
@@ -101,6 +69,7 @@ public class DijkstrasAlgo {
 						//if distance is less than current distance or point is not connected
 						points[j].distance = distance;
 						points[j].connected = true;
+						points[j].connectedFrom.add(points[currentPoint]);
 						recursive.add(j);
 					}
 				}
