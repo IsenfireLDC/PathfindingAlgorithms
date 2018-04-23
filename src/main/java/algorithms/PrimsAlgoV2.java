@@ -13,6 +13,8 @@ public class PrimsAlgoV2 {
 	public int[][] adjMatrix;
 	public ConnectablePoint[] points;
 	
+	public int operations = 0;
+	
 	public PrimsAlgoV2(int[][] adjMatrix, ConnectablePoint[] points) {
 		this.adjMatrix = adjMatrix;
 		this.points = points;
@@ -105,6 +107,8 @@ public class PrimsAlgoV2 {
 		points[start].mark();
 		ArrayList<int[]> resultList = new ArrayList<int[]>();
 		ConnectablePoint[] connection = new ConnectablePoint[] {points[start]};
+		
+		//find first connection
 		int[] current = search(connection);
 		findConnections(current);
 		while (!currentHeap.isEmpty()) {
@@ -112,10 +116,12 @@ public class PrimsAlgoV2 {
 			//set values
 			double dist = currentHeap.min();
 			connection = currentHeap.pop(dist);
+			operations++;
 			current = search(connection);
 			int[] currentA = current;
 			if (!(points[current[0]].connected && points[current[1]].connected)) {
 				//Connect the points
+				operations++;
 				resultList.add(new int[] {current[0], current[1]});
 				
 				double distance = points[current[0]].distance(points[current[1]]);
@@ -133,10 +139,13 @@ public class PrimsAlgoV2 {
 					points[currentA[--indexA]].connectedFrom.add(points[index]);
 				};
 				
+				//find new possible connections
+				operations++;
 				findConnections(current);
 			}
 			
 		}
+		
 		int[][] result = new int[resultList.size()][2];
 		result = resultList.toArray(result);
 		return result;

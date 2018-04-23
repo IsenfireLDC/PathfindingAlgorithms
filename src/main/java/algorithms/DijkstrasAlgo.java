@@ -11,6 +11,8 @@ public class DijkstrasAlgo {
 	public ConnectablePoint[] points;
 	double max = -1D;
 	
+	public int operations = 0;
+	
 	public DijkstrasAlgo(int[][] adjMatrix, ConnectablePoint[] points) {
 		this.adjMatrix = adjMatrix;
 		this.points = points;
@@ -20,16 +22,22 @@ public class DijkstrasAlgo {
 		int[][] result = new int[0][0];
 		ArrayList<Integer> recursive = new ArrayList<Integer>();
 		double distance = 0D;
+		
 		for (int i = 0; i < pointsIn.length; i++) {
 			int currentPoint = pointsIn[i];
 			points[currentPoint].connected = true;
+			
 			for (int j = 0; j < adjMatrix[currentPoint].length; j++) {
+				operations++;
 				if (adjMatrix[currentPoint][j] == 1) {
 					distance = points[currentPoint].distance + points[currentPoint].distance(points[j]);
 //					System.out.println("Point " + j + " with distance of " + distance);
 					
+					//Check point
+					operations++;
 					if ((distance < points[j].distance || !points[j].connected) && ((max >= 0 && distance < max) || max < 0)) {
 						//if distance is less than max or no max and distance is less than current distance or point is not connected
+						operations++;
 						points[j].distance = distance;
 						points[j].connected = true;
 						recursive.add(j);
