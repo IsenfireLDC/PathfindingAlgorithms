@@ -1,17 +1,14 @@
 package main.java.utility;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import main.java.algorithms.DijkstrasAlgo;
 import main.java.algorithms.PrimsAlgoV2;
 
 public class Test {
 	
-	Map<Double, Double> distMap = new HashMap<Double, Double>();
+	ArrayList<Double> distP = new ArrayList<Double>();
+	ArrayList<Double> distD = new ArrayList<Double>();
 	
 	ArrayList<int[][]> adjMatrixes = new ArrayList<int[][]>();
 	ArrayList<ConnectablePoint[]> pointArrays = new ArrayList<ConnectablePoint[]>();
@@ -51,6 +48,8 @@ public class Test {
 	public void genTests(int testCases) {
 		timer.start();
 		this.testCases = testCases;
+		adjMatrixes.clear();
+		pointArrays.clear();
 		for (int i = 0; i < testCases; i++) {
 			adjMatrixes.add(Path.randomAdjacencyMatrix(testSize));
 			pointArrays.add(Path.randomPointArray(testSize, maxDist));
@@ -70,7 +69,8 @@ public class Test {
 			Path.printMatrix(adjMatrixes.get(i));
 			double prims = runPrims(i);
 			double dijkstras = runDijkstras(i);
-			distMap.put(prims, dijkstras);
+			distP.add(prims);
+			distD.add(dijkstras);
 			System.out.println();
 		}
 		timer.end();
@@ -95,8 +95,7 @@ public class Test {
 	public double runPrims(int caseNum) {
 		timer.start();
 		int[][] matrix = this.adjMatrixes.get(caseNum);
-		ConnectablePoint[] points = new ConnectablePoint[testSize];
-		points = this.pointArrays.get(caseNum);
+		ConnectablePoint[] points = this.pointArrays.get(caseNum).clone();
 		
 		PrimsAlgoV2 v2 = new PrimsAlgoV2(matrix, points);
 		System.out.println(points[0].connected);
@@ -111,8 +110,7 @@ public class Test {
 	public double runDijkstras(int caseNum) {
 		timer.start();
 		int[][] matrix = this.adjMatrixes.get(caseNum);
-		ConnectablePoint[] points = new ConnectablePoint[testSize];
-		points = this.pointArrays.get(caseNum);
+		ConnectablePoint[] points = this.pointArrays.get(caseNum).clone();
 		
 		DijkstrasAlgo d = new DijkstrasAlgo(matrix, points);
 		System.out.println(points[0].connected);
@@ -128,17 +126,19 @@ public class Test {
 	
 	public int[] compareDists() {
 		int[] result = new int[] {0, 0, 0};
-		Set<Double> set = distMap.keySet();
-		Iterator<Double> iter = set.iterator();
-		while (iter.hasNext()) {
-			double key = iter.next();
-			if (key > distMap.get(key))
+		int dumb = 0;
+		for (int i = 0; i < distP.size(); i++) {
+			System.out.println(distP.get(i) + " " + distD.get(i));
+			if (distP.get(i) == 0 && distD.get(i) == 0)
+				dumb++;
+			if (distP.get(i) > distD.get(i))
 				result[0]++;
-			else if (key == distMap.get(key))
+			else if (distP.get(i).equals(distD.get(i)))
 				result[1]++;
-			else if (key < distMap.get(key))
+			else if (distP.get(i) < distD.get(i))
 				result[2]++;
 		}
+		System.out.println("Things broke in " + dumb + "/" + testCases + " instances.");
 		return result;
 	};
 

@@ -13,18 +13,22 @@ public class Main {
 		Test test = new Test(5, 30);
 		test.genTests(30);
 		test.runTests();
+//		for (int i = 0; i < 20; i++) {
+//			System.out.println("Test " + (i + 1));
+//			testPrims();
+//		}
 	};
 	
 	public static void testPrims() {
-		int size = 20;
-		int[][] matrix = Path.makeFullMatrix(size);
-		ConnectablePoint[] points = Path.randomPointArray(size);
+		int size = 5;
+		int[][] matrix = Path.randomAdjacencyMatrix(size)/*Path.makeFullMatrix(size)*/;
+		ConnectablePoint[] points = Path.randomPointArray(size, 30);
 		PrimsAlgoV2 v2 = new PrimsAlgoV2(matrix, points);
 		Path.printMatrix(matrix);
 		
-		RenderPath r = new RenderPath();
+//		RenderPath r = new RenderPath();
 		//r.grid(50);
-		r.render(points, v2.run((int)Math.round(Math.random() * size), (int)Math.round(Math.random() * size)));		
+		/*r.render(points, */v2.run((int)Math.ceil(Math.random() * size) - 1, (int)Math.ceil(Math.random() * size) - 1)/*)*/;		
 	};
 	
 	public static void testDijkstras() {
