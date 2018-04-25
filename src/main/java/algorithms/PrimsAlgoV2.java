@@ -105,6 +105,7 @@ public class PrimsAlgoV2 {
 	
 	public int[][] run(int start) {
 		points[start].mark();
+		points[start].connected = true;
 		ArrayList<int[]> resultList = new ArrayList<int[]>();
 		ConnectablePoint[] connection = new ConnectablePoint[] {points[start]};
 		
@@ -118,7 +119,6 @@ public class PrimsAlgoV2 {
 			connection = currentHeap.pop(dist);
 			operations++;
 			current = search(connection);
-			int[] currentA = current;
 			if (!(points[current[0]].connected && points[current[1]].connected)) {
 				//Connect the points
 				operations++;
@@ -128,15 +128,15 @@ public class PrimsAlgoV2 {
 				if (points[current[0]].connected && !points[current[1]].connected) {
 					points[current[1]].distance = points[current[0]].distance + distance;
 					current = search(new ConnectablePoint[] {connection[1]});
+					
 				} else if (points[current[1]].connected && !points[current[0]].connected) {
 					points[current[0]].distance = points[current[1]].distance + distance;
 					current = search(new ConnectablePoint[] {connection[0]});
 				};
 				
-				int indexA = currentA.length;
 				for (int index : current) {
 					points[index].setConnected(true);
-					points[currentA[--indexA]].connectedFrom.add(points[index]);
+//					points[currentA[--indexA]].connectedFrom.add(points[index]);
 				};
 				
 				//find new possible connections
@@ -156,10 +156,6 @@ public class PrimsAlgoV2 {
 		points[end].mark(Color.GREEN);
 		System.out.println("Distance from point " + start + " to point " + end + ": " + points[end].distance);
 		return path;
-	}
-	
-	public void getDistance(int endPoint) {
-		System.out.println(points[endPoint]);
-	}
+	};
 
 }

@@ -10,7 +10,7 @@ import main.java.utility.Test;
 public class Main {
 	
 	public static void main(String[] args) {
-		Test test = new Test(5, 30);
+		Test test = new Test(20, 30);
 		test.genTests(30);
 		test.runTests();
 //		for (int i = 0; i < 20; i++) {

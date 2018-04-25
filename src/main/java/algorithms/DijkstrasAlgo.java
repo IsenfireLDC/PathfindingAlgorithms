@@ -77,7 +77,7 @@ public class DijkstrasAlgo {
 						//if distance is less than current distance or point is not connected
 						points[j].distance = distance;
 						points[j].connected = true;
-						points[j].connectedFrom.add(points[currentPoint]);
+//						points[j].connectedFrom.add(points[currentPoint]);
 						recursive.add(j);
 					}
 				}

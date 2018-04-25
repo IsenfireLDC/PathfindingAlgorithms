@@ -128,8 +128,7 @@ public class Test {
 		int[] result = new int[] {0, 0, 0};
 		int dumb = 0;
 		for (int i = 0; i < distP.size(); i++) {
-			System.out.println(distP.get(i) + " " + distD.get(i));
-			if (distP.get(i) == 0 && distD.get(i) == 0)
+			if (distP.get(i) == -1 || distD.get(i) == -1)
 				dumb++;
 			if (distP.get(i) > distD.get(i))
 				result[0]++;
@@ -138,7 +137,8 @@ public class Test {
 			else if (distP.get(i) < distD.get(i))
 				result[2]++;
 		}
-		System.out.println("Things broke in " + dumb + "/" + testCases + " instances.");
+		result[1] -= dumb;
+		System.out.println("Things couldn't connect in " + dumb + "/" + testCases + " instances.");
 		return result;
 	};
 
