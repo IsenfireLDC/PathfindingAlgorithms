@@ -89,11 +89,38 @@ public class Util {
 			};
 			
 			int k = dists.get(i).size() + 1;
-			writer.write("Averages:,=AVERAGE(B2:B" + k + "),=AVERAGE(C2:C" + k + "),=AVERAGE(D2:D" + k + ")");
+			writer.write("Averages:,=AVERAGE(B2:B" + k + "),=AVERAGE(C2:C" + k + "),=AVERAGE(D2:D" + k + ")" + sep);
+			writer.write("Path Not Found:,\"=COUNTIF(B2:B101, \"=BROKE\")\"");
 			
 			writer.flush();
 			writer.close();
 		}
+	};
+	
+	public static void exportToCSV(String[] files, ArrayList<ArrayList<Double>> dists, ArrayList<ArrayList<Double>> runtimes, ArrayList<ArrayList<Integer>> operations, int[] compare, double[] runtime, int[] operation, int testCases) throws IOException {
+		Util.exportToCSV(files, dists, runtimes, operations);
+		String sep = System.getProperty("line.separator");
+		File file = new File("overview.csv");
+		Writer writer = new BufferedWriter(new FileWriter(file));
+		
+		writer.write(",Better Distance" + sep);
+		writer.write("Dijkstras," + compare[0] + "/" + testCases + sep);
+		writer.write("Equal," + compare[1] + "/" + testCases + sep);
+		writer.write("Prims," + compare[2] + "/" + testCases + sep);
+		writer.write("No Path Found," + (testCases - (compare[0] + compare[1] + compare[2]))+ "/" + testCases + sep);
+		writer.write("," + sep);
+		
+		writer.write(",Average Runtime" + sep);
+		writer.write("Dijkstras," + runtime[0]/testCases + sep);
+		writer.write("Prims," + runtime[1]/testCases + sep);
+		writer.write("," + sep);
+		
+		writer.write(",Average Operations" + sep);
+		writer.write("Dijkstras," + (1D * operation[0])/testCases + sep);
+		writer.write("Prims," + (1D * operation[1])/testCases + sep);
+		
+		writer.flush();
+		writer.close();
 	};
 
 }

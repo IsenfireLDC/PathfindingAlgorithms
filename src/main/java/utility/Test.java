@@ -30,6 +30,13 @@ public class Test {
 	int operP;
 	int operD;
 	
+
+	ArrayList<Double> runtimePr = new ArrayList<Double>();
+	ArrayList<Double> runtimeDi = new ArrayList<Double>();
+	
+	ArrayList<Integer> operPr = new ArrayList<Integer>();
+	ArrayList<Integer> operDi = new ArrayList<Integer>();
+	
 	public Test(int testSize, double maxDist) {
 		this.testSize = testSize;
 		this.maxDist = maxDist;
@@ -95,11 +102,6 @@ public class Test {
 	
 	public void exportTests() throws IOException {
 		timer.start();
-		ArrayList<Double> runtimePr = new ArrayList<Double>();
-		ArrayList<Double> runtimeDi = new ArrayList<Double>();
-		
-		ArrayList<Integer> operPr = new ArrayList<Integer>();
-		ArrayList<Integer> operDi = new ArrayList<Integer>();
 		
 		for (int i = 0; i < pointArrays.size(); i++) {
 			if (!specified) {
@@ -110,17 +112,9 @@ public class Test {
 			System.out.println("Test " + (i+1));
 			double prims = runPrims(i);
 			distP.add(prims);
-			runtimePr.add(runtimeP);
-			runtimeP = 0;
-			operPr.add(operP);
-			operP = 0;
 			
 			double dijkstras = runDijkstras(i);
 			distD.add(dijkstras);
-			runtimeDi.add(runtimeD);
-			runtimeD = 0;
-			operDi.add(operD);
-			operD = 0;
 			System.out.println();
 		};
 		
@@ -137,7 +131,11 @@ public class Test {
 		operations.add(operPr);
 		operations.add(operDi);
 		
-		Util.exportToCSV(files, dists, runtimes, operations);
+		int[] compare = compareDists();
+		double[] runtime = new double[] {runtimeD, runtimeP};
+		int[] operation = new int[] {operD, operP};
+		
+		Util.exportToCSV(files, dists, runtimes, operations, compare, runtime, operation, testCases);
 		
 		timer.end();
 		System.out.println("Operation took " + timer.nanos() + " nanos. (" + timer.seconds() + " seconds)");
@@ -155,7 +153,9 @@ public class Test {
 		timer.end();
 		System.out.println("Points: " + v2.points[start] + " " + v2.points[end]);
 		runtimeP += timer.seconds();
+		runtimePr.add(timer.seconds());
 		operP += v2.operations;
+		operPr.add(v2.operations);
 		return v2.points[end].distance;
 	};
 	
@@ -172,7 +172,9 @@ public class Test {
 		timer.end();
 		System.out.println("Points: " + d.points[start[0]] + " " + d.points[end]);
 		runtimeD += timer.seconds();
+		runtimeDi.add(timer.seconds());
 		operD += d.operations;
+		operDi.add(d.operations);
 		return d.points[end].distance;
 	};
 	
