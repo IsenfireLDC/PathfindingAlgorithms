@@ -1,5 +1,7 @@
 package main.java;
 
+import java.io.IOException;
+
 import main.java.algorithms.DijkstrasAlgo;
 import main.java.algorithms.PrimsAlgoV2;
 import main.java.rendering.RenderPath;
@@ -11,8 +13,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Test test = new Test(20, 30);
-		test.genTests(30);
-		test.runTests();
+		test.genTests(100);
+//		test.runTests();
+		try {
+			test.exportTests();
+		} catch (IOException e) {e.printStackTrace();};
 //		for (int i = 0; i < 20; i++) {
 //			System.out.println("Test " + (i + 1));
 //			testPrims();

@@ -1,5 +1,6 @@
 package main.java.utility;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import main.java.algorithms.DijkstrasAlgo;
@@ -26,8 +27,8 @@ public class Test {
 	double runtimeP;
 	double runtimeD;
 	
-	double operP;
-	double operD;
+	int operP;
+	int operD;
 	
 	public Test(int testSize, double maxDist) {
 		this.testSize = testSize;
@@ -88,8 +89,59 @@ public class Test {
 		System.out.println("Average runtime of Dijkstras Algorithm was " + runtimeD/testCases + " seconds.");
 		System.out.println();
 		
-		System.out.println("Average number of operations for Prims Algorithm was " + operP/testCases + ".");
-		System.out.println("Average number of operations for Dijkstras Algorithm was " + operD/testCases + ".");
+		System.out.println("Average number of operations for Prims Algorithm was " + (1D * operP)/testCases + ".");
+		System.out.println("Average number of operations for Dijkstras Algorithm was " + (1D * operD)/testCases + ".");
+	};
+	
+	public void exportTests() throws IOException {
+		timer.start();
+		ArrayList<Double> runtimePr = new ArrayList<Double>();
+		ArrayList<Double> runtimeDi = new ArrayList<Double>();
+		
+		ArrayList<Integer> operPr = new ArrayList<Integer>();
+		ArrayList<Integer> operDi = new ArrayList<Integer>();
+		
+		for (int i = 0; i < pointArrays.size(); i++) {
+			if (!specified) {
+				start = (int)Math.ceil(Math.random() * testSize) - 1;
+				end = (int)Math.ceil(Math.random() * testSize) - 1;
+			};
+			
+			System.out.println("Test " + (i+1));
+			double prims = runPrims(i);
+			distP.add(prims);
+			runtimePr.add(runtimeP);
+			runtimeP = 0;
+			operPr.add(operP);
+			operP = 0;
+			
+			double dijkstras = runDijkstras(i);
+			distD.add(dijkstras);
+			runtimeDi.add(runtimeD);
+			runtimeD = 0;
+			operDi.add(operD);
+			operD = 0;
+			System.out.println();
+		};
+		
+		String[] files = new String[] {"prims", "dijkstras"};
+		ArrayList<ArrayList<Double>> dists = new ArrayList<ArrayList<Double>>();
+		dists.add(distP);
+		dists.add(distD);
+		
+		ArrayList<ArrayList<Double>> runtimes = new ArrayList<ArrayList<Double>>();
+		runtimes.add(runtimePr);
+		runtimes.add(runtimeDi);
+		
+		ArrayList<ArrayList<Integer>> operations = new ArrayList<ArrayList<Integer>>();
+		operations.add(operPr);
+		operations.add(operDi);
+		
+		Util.exportToCSV(files, dists, runtimes, operations);
+		
+		timer.end();
+		System.out.println("Operation took " + timer.nanos() + " nanos. (" + timer.seconds() + " seconds)");
+		System.out.println();
 	};
 	
 	public double runPrims(int caseNum) {

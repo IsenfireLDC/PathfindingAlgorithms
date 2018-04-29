@@ -1,5 +1,10 @@
 package main.java.utility;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -55,7 +60,6 @@ public class Util {
 	
 	public static <T, E> void printMapExpanded(Map<T, E> map) {
 		System.out.println("Printing map: " + map);
-		System.out.println("Note: Expansion may not be completely accurate");
 		Set<T> set = map.keySet();
 		Collection<E> collection = map.values();
 		Iterator<E> iterV = collection.iterator();
@@ -65,6 +69,31 @@ public class Util {
 			E value = (E) iterV.next();
 			System.out.println(key + " " + value);
 		}
-	}
+	};
+	
+	public static void exportToCSV(String[] files, ArrayList<ArrayList<Double>> dists, ArrayList<ArrayList<Double>> runtimes, ArrayList<ArrayList<Integer>> operations) throws IOException {
+		String sep = System.getProperty("line.separator");
+		for (int i = 0; i < files.length; i++) {
+			File file = new File(files[i] + ".csv");
+			Writer writer = new BufferedWriter(new FileWriter(file));
+			
+			writer.write(files[i] + ",Distance,Time,Operations" + sep);
+			
+			for (int j = 0; j < dists.get(i).size(); j++) {
+				String dist = dists.get(i).get(j).toString();
+				if (dists.get(i).get(j).equals(-1D)) {
+					dist = "BROKE";
+				};
+				
+				writer.write((j+1) + "," + dist + "," + runtimes.get(i).get(j) + "," + operations.get(i).get(j) + sep);
+			};
+			
+			int k = dists.get(i).size() + 1;
+			writer.write("Averages:,=AVERAGE(B2:B" + k + "),=AVERAGE(C2:C" + k + "),=AVERAGE(D2:D" + k + ")");
+			
+			writer.flush();
+			writer.close();
+		}
+	};
 
 }
