@@ -120,6 +120,12 @@ public class Heap {
 	
 	public boolean isEmpty() {
 		return map.isEmpty() && distMap.isEmpty() && distances.isEmpty();
-	}
+	};
+	
+	public void clear() {
+		map.clear();
+		distMap.clear();
+		distances.clear();
+	};
 
 }

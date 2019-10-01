@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import main.java.algorithms.DijkstrasAlgo;
 import main.java.algorithms.PrimsAlgoV2;
-import main.java.rendering.RenderPath;
 import main.java.utility.ConnectablePoint;
 import main.java.utility.Path;
 import main.java.utility.Test;
@@ -12,8 +11,8 @@ import main.java.utility.Test;
 public class Main {
 	
 	public static void main(String[] args) {
-		Test test = new Test(20, 30);
-		test.genTests(100);
+		Test test = new Test(1000, 80);
+		test.genTests(50);
 //		test.runTests();
 		try {
 			test.exportTests();
@@ -22,6 +21,10 @@ public class Main {
 //			System.out.println("Test " + (i + 1));
 //			testPrims();
 //		}
+		
+		/*try {
+			test.timerTest();
+		} catch (InterruptedException e) {e.printStackTrace();}*/
 	};
 	
 	public static void testPrims() {

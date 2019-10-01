@@ -104,6 +104,7 @@ public class PrimsAlgoV2 {
 	};
 	
 	public int[][] run(int start) {
+		int conn = 1;
 		points[start].mark();
 		points[start].connected = true;
 		ArrayList<int[]> resultList = new ArrayList<int[]>();
@@ -141,7 +142,11 @@ public class PrimsAlgoV2 {
 				
 				//find new possible connections
 				operations++;
+				conn++;
 				findConnections(current);
+				if (conn == points.length) {
+					currentHeap.clear();
+				}
 			}
 			
 		}

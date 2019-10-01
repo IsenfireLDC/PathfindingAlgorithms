@@ -1,13 +1,13 @@
 ,Better Distance
-Dijkstras,72/100
-Equal,24/100
-Prims,0/100
-No Path Found,4/100
+Dijkstras,50/50
+Equal,0/50
+Prims,0/50
+No Path Found,0/50
 ,
 ,Average Runtime
-Dijkstras,0.0011130121999999997
-Prims,0.0046636739700000015
+Dijkstras,0.053211271719999995
+Prims,0.6084525309200001
 ,
 ,Average Operations
-Dijkstras,340.55
-Prims,226.8
+Dijkstras,2513164.36
+Prims,10965.22

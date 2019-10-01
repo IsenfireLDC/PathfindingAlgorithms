@@ -22,8 +22,6 @@ public class Test {
 	double maxDist;
 	boolean specified;
 	
-	Timer timer = new Timer();
-	
 	double runtimeP;
 	double runtimeD;
 	
@@ -54,6 +52,7 @@ public class Test {
 	};
 	
 	public void genTests(int testCases) {
+		Timer timer = new Timer();
 		timer.start();
 		this.testCases = testCases;
 		adjMatrixes.clear();
@@ -67,6 +66,7 @@ public class Test {
 	};
 	
 	public void runTests() {
+		Timer timer = new Timer();
 		timer.start();
 		for (int i = 0; i < pointArrays.size(); i++) {
 			if (!specified) {
@@ -101,8 +101,9 @@ public class Test {
 	};
 	
 	public void exportTests() throws IOException {
+		Timer timer = new Timer();
 		timer.start();
-		
+		long startTime = System.nanoTime();
 		for (int i = 0; i < pointArrays.size(); i++) {
 			if (!specified) {
 				start = (int)Math.ceil(Math.random() * testSize) - 1;
@@ -138,11 +139,14 @@ public class Test {
 		Util.exportToCSV(files, dists, runtimes, operations, compare, runtime, operation, testCases);
 		
 		timer.end();
+		long endTime = System.nanoTime();
 		System.out.println("Operation took " + timer.nanos() + " nanos. (" + timer.seconds() + " seconds)");
+		System.out.println("Operation took " + (endTime - startTime) / 1000000000D + " seconds.");
 		System.out.println();
 	};
 	
 	public double runPrims(int caseNum) {
+		Timer timer = new Timer();
 		timer.start();
 		int[][] matrix = this.adjMatrixes.get(caseNum);
 		ConnectablePoint[] points = this.pointArrays.get(caseNum).clone();
@@ -160,6 +164,7 @@ public class Test {
 	};
 	
 	public double runDijkstras(int caseNum) {
+		Timer timer = new Timer();
 		timer.start();
 		int[][] matrix = this.adjMatrixes.get(caseNum);
 		ConnectablePoint[] points = this.pointArrays.get(caseNum).clone();
@@ -194,6 +199,14 @@ public class Test {
 		result[1] -= dumb;
 		System.out.println("Things couldn't connect in " + dumb + "/" + testCases + " instances.");
 		return result;
+	};
+	
+	public void timerTest() throws InterruptedException {
+		Timer t = new Timer();
+		t.start();
+		Thread.sleep(10000);
+		t.end();
+		System.out.println(t.seconds());
 	};
 
 }
